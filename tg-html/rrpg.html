@@ -1,0 +1,272 @@
+<! DOCTYPE html>
+
+<html>
+	
+	<head>
+		<link rel="icon" href="rb.png" type="image/x-icon"/>
+		<meta charset="UTF-8">
+		<title> RASPRUSH PROJECT </title>
+		<link rel="stylesheet" type="text/css" href="estyle.css"/>
+		
+	
+	<body>
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></src$></script>	
+	
+	
+		<meta name="viewport" content="width=device-width, initial-scale=0.9">
+		
+		<h1>Trabalho de Graduação - EGCA</h1 >
+	
+		<h2>Acesso Remoto a Casa de Vegetação</h2>
+		<div class="camera" style="display: flex;">
+		<img src="cam.png" alt="" class="imag0" id="cam0">
+		
+		</div>
+		<button id="sensores" class="ttl"><b>Leitura de Sensores ≡</b></button>
+		
+		
+		
+		<div class="sensores">
+	
+		<div class="at2">
+			<?php include('tabsensores.php') ?>
+		</div>
+	
+		<button id="medir">Efetuar Medição</button>	
+		<div>
+		<a href="geratab1.php"><button id="baixar1">Gerar Planilha de Sensores</button></a>	
+		</div>
+		</div>	
+			
+		<button id="atuadores" class="ttl"><b>Controle de Atuadores ≡</b></button>
+		
+		<div class="atuadores">
+			
+		<div class="at3">
+		<?php include('tabatuadores.php') ?>
+		</div>
+		
+		<button id="vent">Ventilação</button>
+		<button id="ilum">Iluminação</button>
+		<button id="irri">Irrigação</button>	
+		<div>
+		<a href="geratab2.php"><button id="baixar2">Gerar Planilha de Atuadores</button></a>
+		</div>
+		</div>
+		
+		
+		<div class="bg-modal" style="display: none;">
+			<div class="modal-content">
+				
+				<div class="close">+</div>
+				
+				<div class="exibe">
+				<?php include('imagemcamera.php') ?>
+				</div>
+				<img src="cam.png" alt="" class="imag" id="cam">
+				
+				
+				
+			
+			</div>
+		</div>
+		
+	
+	<script>
+			
+			function atualiza1(){
+				$.get('tabsensores.php', function(resultado1){
+					$('.at2').html(resultado1);
+					})
+				setTimeout('atualiza1()', 500);
+				}
+			function atualiza2(){
+				$.get('tabatuadores.php', function(resultado2){
+					$('.at3').html(resultado2);
+					})
+				setTimeout('atualiza2()', 500);
+				}
+			function atualiza3(){
+				$.get('camera.php', function(resultado3){
+					$('.exibe').html(resultado3);
+					})
+				
+				}
+			
+			
+			
+				
+				
+			
+	
+			$(document).ready(function(){
+			$('.close').click(function(){
+				$('.bg-modal').toggle();
+				$('.camera').toggle();
+				var a = new XMLHttpRequest();
+				a.open("GET","cameraoff.php");
+					
+				a.onreadystatechange=function(){
+					if(a.readyState==4){
+						if(a.status==200){
+							}
+							else alert("Erro ao solicitar");
+							}
+					
+					
+					}
+				a.send();
+			});
+			$('#atuadores').click(function(){
+				$('.atuadores').toggle();
+			});
+			$('#sensores').click(function(){
+				$('.sensores').toggle();
+			});
+			
+			$('#cam0').click(function(){
+				$('.bg-modal').toggle();
+				$('.camera').toggle();
+				var a = new XMLHttpRequest();
+				a.open("GET","cameraon.php");
+					window.setTimeout(function(){
+					atualiza3();
+					},500);
+					
+				a.onreadystatechange=function(){
+					if(a.readyState==4){
+						if(a.status==200){
+							}
+							else alert("Erro ao solicitar");
+							}
+					
+					
+					}
+				a.send();
+				
+				
+			});
+			
+			
+			
+			
+			$('#cam').click(function(){
+				window.setTimeout(function(){
+					atualiza3();
+					},500);
+			});
+			
+			
+			
+			
+			$('#medir').click(function(){
+				
+				
+				var a = new XMLHttpRequest();
+				a.open("GET","mede.php");
+					window.setTimeout(function(){
+					atualiza1();
+					atualiza2();
+					},500);
+					
+				a.onreadystatechange=function(){
+					if(a.readyState==4){
+						if(a.status==200){
+							}
+							else alert("Erro ao solicitar");
+							}
+					
+					
+					}
+				a.send();
+					
+			});
+			$('#vent').click(function(){
+				var a = new XMLHttpRequest();
+				a.open("GET","vent.php");
+					window.setTimeout(function(){
+					atualiza2();
+					},500);
+					
+				a.onreadystatechange=function(){
+					if(a.readyState==4){
+						if(a.status==200){
+							}
+							else alert("Erro ao solicitar");
+							}
+					
+					
+					}
+				a.send();
+			
+			});
+			$('#ilum').click(function(){
+				var a = new XMLHttpRequest();
+				a.open("GET","ilum.php");
+					window.setTimeout(function(){
+					atualiza2();
+					},500);
+					
+				a.onreadystatechange=function(){
+					if(a.readyState==4){
+						if(a.status==200){
+							}
+							else alert("Erro ao solicitar");
+							}
+					
+					
+					}
+				a.send();
+					
+			});
+			$('#irri').click(function(){
+				var a = new XMLHttpRequest();
+				a.open("GET","irri.php");
+					window.setTimeout(function(){
+					atualiza2();
+					},500);
+					
+				a.onreadystatechange=function(){
+					if(a.readyState==4){
+						if(a.status==200){
+							}
+							else alert("Erro ao solicitar");
+							}
+					
+					
+					}
+				a.send();
+				
+			});
+			
+			
+			
+			var a = new XMLHttpRequest();
+				a.open("GET","atualiza.php");
+				window.setTimeout(function(){
+					atualiza1();
+					atualiza2();
+					},500);
+			
+								
+				a.onreadystatechange=function(){
+					if(a.readyState==4){
+						if(a.status==200){
+							}
+							else alert("Erro ao solicitar");
+							}
+					
+					
+					}
+				a.send();
+			
+			
+			
+			
+			
+			
+		});
+		</script>
+	</body>
+	</head>
+</html>	
